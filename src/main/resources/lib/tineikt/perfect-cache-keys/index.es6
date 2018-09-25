@@ -61,7 +61,7 @@ PerfectCacheKeys.prototype.getHeader = function() {
 		header[this.name] = this.cacheKeys.join(',');
 
 		if (debug) {
-			log.info('PCK debug start 123');
+			log.info('PCK debug start');
 			contentLib.query({
 				filters: {
 					ids: {
@@ -71,7 +71,7 @@ PerfectCacheKeys.prototype.getHeader = function() {
 			}).hits.forEach(c => {
 				log.info(`${c.type} - ${c.displayName} - ${c._id}`);
 			});
-			log.info('PCK debug end 123');
+			log.info('PCK debug end');
 		}
 	}
 	return header;
