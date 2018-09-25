@@ -1,6 +1,6 @@
 import contentLib from '/lib/xp/content';
 import portalLib from '/lib/xp/portal';
-const debug = true;
+const debug = false;
 
 /*
 *   Simple utility function for forcing something to be an array
