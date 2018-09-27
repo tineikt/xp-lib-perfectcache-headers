@@ -14,7 +14,7 @@ dependencies {
 <site>
 	...
 	<filters>
-		<response-filter name="perfect-cache" order="10"/>
+		<response-filter name="perfect-cache-keys" order="10"/>
 	</filters>
 </site>
 ```
