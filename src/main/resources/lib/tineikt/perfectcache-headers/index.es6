@@ -1,6 +1,9 @@
 import contentLib from '/lib/xp/content';
 import portalLib from '/lib/xp/portal';
 
+// This should be set by app.config 🙈
+const debug = false;
+
 /*
 *   Simple utility function for forcing something to be an array
 *
@@ -22,7 +25,7 @@ const forceArray = (object) => {
 
  */
 exports.PerfectCacheHeaders = function PerfectCacheHeaders(name) {
-	this.name = `pck-${name}`;
+	this.name = `pch-${name}`;
 	this.cacheKeys = [];
 }
 
@@ -60,7 +63,7 @@ PerfectCacheHeaders.prototype.getHeader = function() {
 		header[this.name] = this.cacheKeys.join(',');
 
 		if (debug) {
-			log.info('PCK debug start');
+			log.info('PCH debug start');
 			contentLib.query({
 				filters: {
 					ids: {
@@ -70,7 +73,7 @@ PerfectCacheHeaders.prototype.getHeader = function() {
 			}).hits.forEach(c => {
 				log.info(`${c.type} - ${c.displayName} - ${c._id}`);
 			});
-			log.info('PCK debug end');
+			log.info('PCH debug end');
 		}
 	}
 	return header;

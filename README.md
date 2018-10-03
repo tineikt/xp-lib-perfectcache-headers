@@ -1,4 +1,7 @@
-# <a href="https://www.tine.no/"><img src="https://webfiles.tine.no/Logo/TINE-logo.svg" alt="TINE Logo" width="70" align="right"></a> xp-lib-perfectcache
+# <a href="https://www.tine.no/"><img src="https://webfiles.tine.no/Logo/TINE-logo.svg" alt="TINE Logo" width="70" align="right"></a> xp-lib-perfectcache-headers
+
+## What is this
+This is a util lib that helps create and handle the xkey headers used by xkey vmod in Varnish to support secondary hashes to objects.
 
 ## Setting up reference to this lib in your own project
 1. Add lib as a dependency to your **build.gradle** file
@@ -54,16 +57,16 @@ Returns a simple header ready to be returned in response
 ```javascript
 {
 	headers: {
-		pck-name: 'con-ce5dc0e7-0e28-47fc-b4a6-4d81727f00e7,cat-104c0db2-aa53-411c-8f6a-9213947d13d9'
+		pch-name: 'con-ce5dc0e7-0e28-47fc-b4a6-4d81727f00e7,cat-104c0db2-aa53-411c-8f6a-9213947d13d9'
 	}
 }
 ```
 
 ### add(guid, type = 'con-')
-Adds a single content to the PCK header
+Adds a single content to the header
 
 ### remove(guid, type = 'con-')
-Remove a single content to the PCK header
+Remove a single content from the header
 
 ### utilMedia(media)
 Util function to support media mixin and add selected image or video content by passing media node
