@@ -5,3 +5,4 @@
 
 # Ignore build output
 /src/main/resources/lib/tineikt/**/*.js
+/src/main/resources/site/**/*.js

@@ -2,7 +2,7 @@ exports.responseFilter = (req, res) => {
 	// Only process headers if mode is live
 	const cacheKeyHeaders = [];
 	Object.keys(res.headers).filter(key => {
-		if (key.startsWith('pck-')) {
+		if (key.startsWith('pc-')) {
 			cacheKeyHeaders.push(res.headers[key]);
 			delete res.headers[key];
 		}

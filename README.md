@@ -1,11 +1,10 @@
-# xp-lib-pck
-
+# <a href="https://www.tine.no/"><img src="https://webfiles.tine.no/Logo/TINE-logo.svg" alt="TINE Logo" width="70" align="right"></a> xp-lib-perfectcache
 
 ## Setting up reference to this lib in your own project
 1. Add lib as a dependency to your **build.gradle** file
 ```
 dependencies {
-	include 'com.github.tineikt:xp-lib-pck'
+	include 'com.github.tineikt:xp-lib-perfectcache-headers'
 }
 ```
 
@@ -14,7 +13,7 @@ dependencies {
 <site>
 	...
 	<filters>
-		<response-filter name="perfect-cache-keys" order="10"/>
+		<response-filter name="perfectCacheHeaders" order="10"/>
 	</filters>
 </site>
 ```
@@ -23,12 +22,12 @@ dependencies {
 Require it in your JavaScript code.
 
 ```javascript
-import { pck } from '/lib/tineikt/perfect-cache-keys';
+import { pch } from '/lib/tineikt/perfectcache-headers';
 ```
 
-Create a new perfect cache key object.
+Create a new perfect cache header object.
 ```javascript
-const cacheHeaders = new pck(name);
+const cacheHeaders = new pch(name);
 ```
 `name` should be something unique for the complete request. If used in a part we could use the path to the component.
 

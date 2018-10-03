@@ -1,6 +1,5 @@
 import contentLib from '/lib/xp/content';
 import portalLib from '/lib/xp/portal';
-const debug = false;
 
 /*
 *   Simple utility function for forcing something to be an array
@@ -22,7 +21,7 @@ const forceArray = (object) => {
 /**
 
  */
-function PerfectCacheKeys(name) {
+exports.PerfectCacheHeaders = function PerfectCacheHeaders(name) {
 	this.name = `pck-${name}`;
 	this.cacheKeys = [];
 }
@@ -30,7 +29,7 @@ function PerfectCacheKeys(name) {
 /**
 
  */
-PerfectCacheKeys.prototype.remove = function(guid) {
+PerfectCacheHeaders.prototype.remove = function(guid) {
 	if (guid) {
 		const index = this.cacheKeys.indexOf(guid);
 		if (index > -1) {
@@ -42,7 +41,7 @@ PerfectCacheKeys.prototype.remove = function(guid) {
 /**
 
  */
-PerfectCacheKeys.prototype.add = function(guid, type = 'con-') {
+PerfectCacheHeaders.prototype.add = function(guid, type = 'con-') {
 	if (guid) {
 		if (Array.isArray(guid)) {
 			this.cacheKeys = [].concat(this.cacheKeys, guid.map(g => `${type}${g}`));
@@ -55,7 +54,7 @@ PerfectCacheKeys.prototype.add = function(guid, type = 'con-') {
 /**
 
  */
-PerfectCacheKeys.prototype.getHeader = function() {
+PerfectCacheHeaders.prototype.getHeader = function() {
 	const header = {};
 	if (this.cacheKeys.length) {
 		header[this.name] = this.cacheKeys.join(',');
@@ -80,7 +79,7 @@ PerfectCacheKeys.prototype.getHeader = function() {
 /**
 
  */
-PerfectCacheKeys.prototype.utilMedia = function(media = false) {
+PerfectCacheHeaders.prototype.utilMedia = function(media = false) {
 	if (media) {
 		switch (media._selected) {
 			case 'mediaImage':
@@ -97,7 +96,7 @@ PerfectCacheKeys.prototype.utilMedia = function(media = false) {
 /**
 
  */
-PerfectCacheKeys.prototype.utilFragments = function(region = false) {
+PerfectCacheHeaders.prototype.utilFragments = function(region = false) {
 	if (region) {
 		forceArray(region.components).filter(c => c.type === 'fragment').forEach(component => {
 			this.add(component.fragment);
@@ -108,7 +107,7 @@ PerfectCacheKeys.prototype.utilFragments = function(region = false) {
 /**
 
  */
-PerfectCacheKeys.prototype.utilSelectorConfig = function(config = false, contents) {
+PerfectCacheHeaders.prototype.utilSelectorConfig = function(config = false, contents) {
 	let childrenIds = contents.map(c => c._id);
 	this.add(childrenIds);
 
@@ -129,7 +128,7 @@ PerfectCacheKeys.prototype.utilSelectorConfig = function(config = false, content
 /**
 
  */
-PerfectCacheKeys.prototype.utilTarget = function(url = false) {
+PerfectCacheHeaders.prototype.utilTarget = function(url = false) {
 	if (url) {
 		try {
 			if (url.target.conKey) {
@@ -144,6 +143,6 @@ PerfectCacheKeys.prototype.utilTarget = function(url = false) {
 /**
 
  */
-exports.pck = function(name) {
-	return new PerfectCacheKeys(name);
+exports.pch = function(name) {
+	return new PerfectCacheHeaders(name);
 };
