@@ -24,7 +24,7 @@ const forceArray = (object) => {
 /**
 
  */
-exports.PerfectCacheHeaders = function PerfectCacheHeaders(name) {
+function PerfectCacheHeaders(name) {
 	this.name = `pch-${name}`;
 	this.cacheKeys = [];
 }
