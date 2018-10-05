@@ -25,15 +25,6 @@ const forceArray = (object) => {
 
  */
 function PerfectCacheHeaders(name) {
-	/*
-		If you haven't taken care of different XP contexts, such as fragments
-		this may save you 🤞🏻
-		Only needs to be unique for each request.
-	*/
-	if (!name) {
-		name = `${new Date().getTime()}${Math.floor(Math.random() * 100)}`;
-	}
-
 	this.name = `pch-${name.replace(/[^\w-:]/gi, '')}`;
 	this.cacheKeys = [];
 }
@@ -161,6 +152,6 @@ PerfectCacheHeaders.prototype.utilTarget = function(url = false) {
 /**
 
  */
-exports.pch = function(name) {
+exports.pch = function(name = `${new Date().getTime()}${Math.floor(Math.random() * 100)}`) {
 	return new PerfectCacheHeaders(name);
 };
