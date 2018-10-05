@@ -7,7 +7,7 @@ This is a util lib that helps create and handle the xkey headers used by xkey vm
 1. Add lib as a dependency to your **build.gradle** file
 ```
 dependencies {
-	include 'com.github.tineikt:xp-lib-perfectcache-headers'
+	include 'com.github.tineikt:xp-lib-perfectcache-headers:1.0.0'
 }
 ```
 
