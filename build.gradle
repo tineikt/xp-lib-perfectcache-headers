@@ -1,4 +1,5 @@
 plugins {
+	id 'maven'
 	id 'com.enonic.xp.app' version '1.0.17'
 	id 'com.moowork.node' version '1.2.0'
 }
@@ -28,6 +29,8 @@ dependencies {
 	include "com.enonic.xp:lib-portal:${xpVersion}"
 	include "com.enonic.xp:lib-content:${xpVersion}"
 }
+
+sourceSets
 
 repositories {
 	mavenLocal()
