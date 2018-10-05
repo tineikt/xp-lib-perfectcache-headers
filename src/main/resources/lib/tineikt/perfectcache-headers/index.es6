@@ -110,7 +110,7 @@ PerfectCacheHeaders.prototype.utilFragments = function(region = false) {
 /**
 
  */
-PerfectCacheHeaders.prototype.utilSelectorConfig = function(config = false, contents) {
+PerfectCacheHeaders.prototype.utilSelectorConfig = function(config = false, contents = []) {
 	let childrenIds = contents.map(c => c._id);
 	this.add(childrenIds);
 
