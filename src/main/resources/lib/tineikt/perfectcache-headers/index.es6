@@ -25,7 +25,7 @@ const forceArray = (object) => {
 
  */
 function PerfectCacheHeaders(name) {
-	this.name = `pch-${name}`;
+	this.name = `pch-${name.replace(/[^\w-:]/gi, '')}`;
 	this.cacheKeys = [];
 }
 
