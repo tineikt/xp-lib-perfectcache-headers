@@ -110,9 +110,15 @@ PerfectCacheHeaders.prototype.utilFragments = function(region = false) {
 /**
 
  */
-PerfectCacheHeaders.prototype.utilSelectorConfig = function(config = false, contents = []) {
-	let childrenIds = contents.map(c => c._id);
-	this.add(childrenIds);
+PerfectCacheHeaders.prototype.utilSelectorConfig = function(config = false, contents = false) {
+	if (contents) {
+		if (Array.isArray(contents)) {
+			let childrenIds = contents.map(c => c._id);
+			this.add(childrenIds);
+		} else if (contents._id) {
+			this.add(contents._id);
+		}
+	}
 
 	let queryFolderIds = config.conFolder;
 	this.add(queryFolderIds, 'cat-');
