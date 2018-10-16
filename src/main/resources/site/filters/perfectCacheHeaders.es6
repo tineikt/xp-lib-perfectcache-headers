@@ -8,7 +8,7 @@ exports.responseFilter = (req, res) => {
 		}
 	});
 	if (cacheKeyHeaders.length) {
-		res.headers.xkey: cacheKeyHeaders.join(",").split(",").join(" ")
+		res.headers.xkey = cacheKeyHeaders.join(",").split(",").join(" ");
 	}
 
 	return res;
