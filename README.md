@@ -54,7 +54,7 @@ return {
 The `xp-content-path` header should also be set on page controllers with the value of the path to the content.
 This header is used by the [xp-app-perfectcache-purger](https://github.com/tineikt/xp-app-perfectcache-purger) to ban whole whole sites/trees.
 ```javascript
-headers['xp-content-path'] = content._path;
+headers['xp-content-path'] = encodeURI(content._path); // if paths contain åæø or other chars invalid in header values.
 ```
 
 ## Methods
