@@ -1,6 +1,6 @@
 exports.responseFilter = (req, res) => {
 	// Only process headers if mode is live
-	var cacheKeyHeaders = [];
+	const cacheKeyHeaders = [];
 	Object.keys(res.headers).filter(key => {
 		if (key.startsWith('pch-')) {
 			cacheKeyHeaders.push(res.headers[key]);
@@ -9,8 +9,8 @@ exports.responseFilter = (req, res) => {
 	});
 
 	if (cacheKeyHeaders.length) {
-        cacheKeyHeaders = cacheKeyHeaders.filter((x, i, a) => a.indexOf(x) === i)
-		res.headers.xkey = cacheKeyHeaders.join(",").split(",").join(" ");
+        const uniqueCacheKeyHeaders = cacheKeyHeaders.filter((x, i, a) => a.indexOf(x) === i);
+		res.headers.xkey = uniqueCacheKeyHeaders.join(",").split(",").join(" ");
 	}
 
 	return res;
