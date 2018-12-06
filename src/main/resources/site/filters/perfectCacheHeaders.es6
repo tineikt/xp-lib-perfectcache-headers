@@ -7,8 +7,10 @@ exports.responseFilter = (req, res) => {
 			delete res.headers[key];
 		}
 	});
+
 	if (cacheKeyHeaders.length) {
-		res.headers.xkey = cacheKeyHeaders.join(",").split(",").join(" ");
+        const uniqueCacheKeyHeaders = cacheKeyHeaders.filter((x, i, a) => a.indexOf(x) === i);
+		res.headers.xkey = uniqueCacheKeyHeaders.join(",").split(",").join(" ");
 	}
 
 	return res;
