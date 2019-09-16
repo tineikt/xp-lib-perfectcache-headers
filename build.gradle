@@ -1,6 +1,6 @@
 plugins {
-	id 'maven'
-	id 'com.enonic.xp.app' version '1.0.17'
+	id 'maven-publish'
+	id 'com.enonic.xp.app' version '1.2.0'
 	id 'com.moowork.node' version '1.2.0'
 }
 
@@ -14,8 +14,8 @@ app {
 }
 
 ext {
-  nodeVersion = "8.11.1"
-  npmVer = "5.7.1"
+	nodeVersion = "8.11.1"
+	npmVer = "5.7.1"
 }
 
 node {
@@ -40,9 +40,31 @@ repositories {
 }
 
 task transpile(type: NpmTask, dependsOn: 'npmInstall') {
-  group = 'build'
-  description = 'Execute transpile for production.'
-  args = ['run', 'transpile']
+	group = 'build'
+	description = 'Execute transpile for production.'
+	args = ['run', 'transpile']
 }
 
-processResources.dependsOn(':transpile')
+publishing {
+	publications {
+		maven( MavenPublication ) {
+			groupId 'no.tine.xp'
+			artifactId 'xp-lib-perfectcache-headers'
+			version "$version"
+			from components.java
+		}
+	}
+
+	repositories {
+		maven {
+			url 'https://pkgs.dev.azure.com/tine-sa/_packaging/digitale-flater/maven/v1'
+			credentials {
+				username "AZURE_ARTIFACTS"
+				password System.getenv("AZURE_ARTIFACTS_ENV_ACCESS_TOKEN") ?: "${azureArtifactsGradleAccessToken}"
+			}
+		}
+	}
+}
+
+jar.dependsOn += transpile
+jar.archiveName = "${jar.baseName}.${jar.extension}"
