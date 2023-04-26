@@ -1,11 +1,28 @@
 {
-  "name": "xp-app-perfectcache-headers",
+  "name": "xp-lib-riversand-xp7",
   "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
   "scripts": {
-    "transpile": "babel ./src/main/resources -x \".es6\" --out-dir ./build/resources/main"
+    "watch": "babel ./src/main/resources -x \".es6\" --out-dir ./src/main/resources -w",
+    "transpile": "babel ./src/main/resources -x \".es6\" --out-dir ./src/main/resources",
+    "lint": "eslint --ext=es6 ./src/main/resources",
+    "build": "set NODE_ENV=production && npm run lint && npm run transpile"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-eslint": "^10.0.1",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "eslint": "^5.9.0",
+    "eslint-plugin-babel": "^5.3.0"
   },
   "devDependencies": {
-    "babel-cli": "6.26.0",
-    "babel-preset-env": "1.6.1"
+    "babel-core": "^6.26.3",
+    "babel-preset-env": "^1.7.0"
   }
 }
