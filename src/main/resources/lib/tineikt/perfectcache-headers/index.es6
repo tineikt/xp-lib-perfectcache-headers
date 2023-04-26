@@ -1,5 +1,5 @@
-import contentLib from '/lib/xp/content';
-import portalLib from '/lib/xp/portal';
+import { query } from '/lib/xp/content';
+import { getContent } from '/lib/xp/portal';
 
 // This should be set by app.config 🙈
 const debug = false;
@@ -64,7 +64,7 @@ PerfectCacheHeaders.prototype.getHeader = function() {
 
 		if (debug) {
 			log.info('PCH debug start');
-			contentLib.query({
+			query({
 				filters: {
 					ids: {
 						values: header[this.name].split(',').map(c => c.substring(4))
@@ -125,7 +125,7 @@ PerfectCacheHeaders.prototype.utilSelectorConfig = function(config = false, cont
 
 	const cleanedAppName = app.name.replace(/\./g, '-');
 	if (config.getContentBasedOnCurrentContentTags) {
-		const content = portalLib.getContent();
+		const content = getContent();
 		let currentContentTagIds = content.x[cleanedAppName].tags.conTag;
 		this.add(currentContentTagIds, 'tag-');
 	}
