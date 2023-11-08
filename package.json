@@ -7,8 +7,8 @@
     "doc": "docs"
   },
   "scripts": {
-    "watch": "babel ./src/main/resources -x \".es6\" --out-dir ./src/main/resources -w",
-    "transpile": "babel ./src/main/resources -x \".es6\" --out-dir ./src/main/resources",
+    "watch": "babel ./src/main/resources -x \".es6\" --out-dir ./build/resources/main -w",
+    "transpile": "babel ./src/main/resources -x \".es6\" --out-dir ./build/resources/main",
     "lint": "eslint --ext=es6 ./src/main/resources",
     "build": "set NODE_ENV=production && npm run lint && npm run transpile"
   },
