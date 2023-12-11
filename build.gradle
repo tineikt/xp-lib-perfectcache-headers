@@ -1,56 +1,40 @@
 plugins {
-	id 'maven-publish'
-	id 'com.enonic.xp.app' version '1.2.0'
-	id 'com.moowork.node' version '1.2.0'
-}
-
-app {
-	name = project.ext.appName
-	version = '1.0.0'
-	displayName = project.ext.displayName
-	vendorName = 'TINE SA'
-	vendorUrl = 'https://www.tine.no/'
-	systemVersion = project.ext.xpVersion
+	id "maven-publish"
+	id "com.github.node-gradle.node" version "7.0.1"
+	id "com.enonic.xp.app" version "3.2.0"
 }
 
 ext {
-	nodeVersion = "8.11.1"
-	npmVer = "5.7.1"
+	nodeVer = "18.12.0"
+}
+
+app {
+	name = "${appName}"
+	displayName = "${appDisplayName}"
+	vendorName = "${vendorName}"
+	vendorUrl = "${vendorUrl}"
+	systemVersion = "${xpVersion}"
+
+	allowDevSourcePathsPublishing = true // for setting com.enonic.xp.app.production = true
 }
 
 node {
-	version = nodeVersion
-	npmVersion = npmVer
+	version = nodeVer
 	download = true
 }
-
-dependencies {
-	compile "com.enonic.xp:core-api:${xpVersion}"
-	compile "com.enonic.xp:portal-api:${xpVersion}"
-	include "com.enonic.xp:lib-portal:${xpVersion}"
-	include "com.enonic.xp:lib-content:${xpVersion}"
-}
-
-sourceSets
 
 repositories {
 	mavenLocal()
 	mavenCentral()
-	maven { url 'http://repo.enonic.com/public' }
-}
-
-task transpile(type: NpmTask, dependsOn: 'npmInstall') {
-	group = 'build'
-	description = 'Execute transpile for production.'
-	args = ['run', 'transpile']
+	xp.enonicRepo()
 }
 
 publishing {
 	publications {
-		maven( MavenPublication ) {
-			groupId 'no.tine.xp'
-			artifactId 'xp-lib-perfectcache-headers'
-			version "$version"
+		maven(MavenPublication) {
+			groupId "no.tine.xp"
+			artifactId "$projectName"
+			version  System.getenv("BUILD_BUILDNUMBER")
 			from components.java
 		}
 	}
@@ -58,13 +42,65 @@ publishing {
 	repositories {
 		maven {
 			url 'https://pkgs.dev.azure.com/tine-sa/_packaging/digitale-flater/maven/v1'
+			name 'digitale-flater'
+			authentication {
+				basic(BasicAuthentication)
+			}
+
+			def azureCredentials = readSettings(name)
 			credentials {
-				username "AZURE_ARTIFACTS"
-				password System.getenv("AZURE_ARTIFACTS_ENV_ACCESS_TOKEN") ?: "${azureArtifactsGradleAccessToken}"
+				username = azureCredentials?.username
+				password = azureCredentials?.password
 			}
 		}
 	}
 }
 
-jar.dependsOn += transpile
-jar.archiveName = "${jar.baseName}.${jar.extension}"
+def readSettings(repoName) {
+	println "Looking for settings for repo " + repoName
+
+	def userHome = System.getProperty("user.home")
+	def mavenSettingsFile = new File(userHome, ".m2/settings.xml")
+
+	def settings = new XmlSlurper().parse(mavenSettingsFile)
+	def matchingSettings = settings.servers.server.find{ it.id.text() == repoName }
+
+	return [ username: matchingSettings.username, password: matchingSettings.password ];
+}
+
+dependencies {
+	implementation "com.enonic.xp:core-api:${xpVersion}"
+	implementation "com.enonic.xp:portal-api:${xpVersion}"
+	include "com.enonic.xp:lib-portal:${xpVersion}"
+	include "com.enonic.xp:lib-content:${xpVersion}"
+}
+
+clean.doFirst {
+	delete buildDir
+	description = "Prevent accumulation of old files"
+	println "Deleted local build folder"
+}
+
+npmInstall { // add additional args to existing task
+	description = "Enables devDependencies to be installed in production"
+	args = ["--include=dev"]
+}
+
+task transpile(type: NpmTask, dependsOn: [clean, npmInstall, processResources]) {
+	group = 'build'
+	description = 'Execute transpile for production.'
+	args = ['run', 'build']
+}
+
+processResources {
+	include "**/*"
+	exclude "**/.gitkeep"
+	exclude "**/*.es"
+	exclude "**/*.es6"
+	exclude "assets/styles/**/*.less"
+	exclude "assets/styles/**/*.sass"
+	exclude "assets/styles/**/*.scss"
+	includeEmptyDirs false
+}
+
+jar.dependsOn('transpile')
