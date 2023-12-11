@@ -75,7 +75,18 @@ dependencies {
 	include "com.enonic.xp:lib-content:${xpVersion}"
 }
 
-task transpile(type: NpmTask, dependsOn: 'npmInstall') {
+clean.doFirst {
+	delete buildDir
+	description = "Prevent accumulation of old files"
+	println "Deleted local build folder"
+}
+
+npmInstall { // add additional args to existing task
+	description = "Enables devDependencies to be installed in production"
+	args = ["--include=dev"]
+}
+
+task transpile(type: NpmTask, dependsOn: [clean, npmInstall, processResources]) {
 	group = 'build'
 	description = 'Execute transpile for production.'
 	args = ['run', 'build']
@@ -92,4 +103,4 @@ processResources {
 	includeEmptyDirs false
 }
 
-processResources.dependsOn('transpile')
+jar.dependsOn('transpile')
